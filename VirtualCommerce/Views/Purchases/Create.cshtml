@@ -1,0 +1,150 @@
+﻿@model VirtualCommerce.ViewModels.PurchaseViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Purchase</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SupplierId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("SupplierId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.WarehouseId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("WarehouseId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.WarehouseId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                        @Html.ActionLink("Add Product", "AddProduct", new { }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-success" })
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+}
+<h4>Details</h4>
+@if (Model.Details.Count > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Details[0].Product.Image)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Details[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Details[0].TaxRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Details[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Details[0].Quantity)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Details[0].Value)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Details)
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Product.Image))
+                    {
+                        <img src="@Url.Content(item.Product.Image)" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+                    }
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+
+                <td style="text-align: right">
+                    @Html.DisplayFor(modelItem => item.TaxRate)
+                </td>
+                <td style="text-align: right">
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td style="text-align: right">
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td style="text-align: right">
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Delete", "DeleteProduct", new { id = item.ProductId }, new { @class = " btn btn-danger", onclick = "return confirm('Are you sure to delete this item?')" })
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="4">
+                <strong>Total:</strong> 
+            </td>
+            <td style="text-align: right">
+                <strong> @Html.DisplayFor(model => model.TotalQuantity)</strong>
+
+            </td>
+            <td style="text-align: right">
+                <strong>@Html.DisplayFor(model => model.TotalValue)</strong>
+
+            </td>
+        </tr>
+
+    </table>}
+else
+{
+    <h5>No items added yet</h5>
+}
+
+

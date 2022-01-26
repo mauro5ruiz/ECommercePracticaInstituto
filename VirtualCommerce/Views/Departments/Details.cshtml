@@ -1,0 +1,65 @@
+﻿@model VirtualCommerce.Models.Department
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+<div class="row">
+    <div class="col-md-6">
+        <div>
+            <h4>Department</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.DepartmentId }, new { @class = "btn btn-info" })
+            @Html.ActionLink("Add City", "AddCity", new { id = Model.DepartmentId }, new { @class = "btn btn-warning" })
+            @Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-success" })
+        </p>
+    </div>
+    <div class="col-md-6">
+        <h4>Cities</h4>
+        @if (Model.Cities.Count > 0)
+        {
+            <table class="table">
+                <tr>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model.Cities)
+                {
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditCity", new { cityId = item.CityId, departmentId = item.DepartmentId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Delete", "DeleteCity", new { cityId = item.CityId, departmentId = item.DepartmentId }, new { @class = "btn btn-danger" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        }
+        else
+        {
+            <h4>No cities added yet</h4>
+        }
+    </div>
+
+</div>
